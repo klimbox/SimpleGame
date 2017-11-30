@@ -236,7 +236,7 @@
     <Content Include="Scripts\jquery-3.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\GamesLib\GamesLib\GamesLib.csproj">
+    <ProjectReference Include="..\GamesLib\GamesLib.csproj">
       <Project>{ee3f4126-8631-4051-a23e-4bc1a4de723d}</Project>
       <Name>GamesLib</Name>
     </ProjectReference>

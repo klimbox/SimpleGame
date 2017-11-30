@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGame", "SimpleGame\SimpleGame.csproj", "{EDF82349-5C7D-41BC-AA4A-FA662D974A53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesLib", "..\GamesLib\GamesLib\GamesLib.csproj", "{EE3F4126-8631-4051-A23E-4BC1A4DE723D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesLib", "GamesLib\GamesLib.csproj", "{EE3F4126-8631-4051-A23E-4BC1A4DE723D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
