@@ -21,7 +21,7 @@ namespace SimpleGame.Hubs
 
             if (name != game.WhoNextTurn())
             {
-                Clients.All.showMessage("Следующим ходит игрок: " + game.WhoNextTurn());
+                Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Следующим ходит игрок: " + game.WhoNextTurn());
                 return;
             }
             
