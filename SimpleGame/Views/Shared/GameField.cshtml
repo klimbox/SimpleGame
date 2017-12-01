@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "GameField";
+}
+
+<table class="table table-bordered" id="xo_field">
+    <tr>
+        <td id="00">  -  </td>
+        <td id="01">  -  </td>
+        <td id="02">  -  </td>
+    </tr>
+    <tr>
+        <td id="10">  -  </td>
+        <td id="11">  -  </td>
+        <td id="12">  -  </td>
+    </tr>
+    <tr>
+        <td id="20">  -  </td>
+        <td id="21">  -  </td>
+        <td id="22">  -  </td>
+    </tr>
+</table>
+<input id="gameId" type="hidden" />
+<script src="~/Scripts/jquery-3.2.1.js"></script>
+<!--Ссылка на библиотеку SignalR -->
+<script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+<!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
+<script src="~/Scripts/FieldLogic.js"></script>
+
+

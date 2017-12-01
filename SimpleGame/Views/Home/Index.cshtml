@@ -16,34 +16,20 @@
             <input id="txtUserName" type="text" />
             <input id="btnLogin" type="button" value="Войти" />
         </div>
-        <div id="gameBody">
-            <div id="header"></div>
-            <table class="table table-bordered" id="xo_field">
-                <tr>
-                    <td id="00">  -  </td>
-                    <td id="01">  -  </td>
-                    <td id="02">  -  </td>
-                </tr>
-                <tr>
-                    <td id="10">  -  </td>
-                    <td id="11">  -  </td>
-                    <td id="12">  -  </td>
-                </tr>
-                <tr>
-                    <td id="20">  -  </td>
-                    <td id="21">  -  </td>
-                    <td id="22">  -  </td>
-                </tr>
-            </table>
-
+        <div id="gameBody" hidden>
+            <div id="header"></div>           
+            @Html.Partial("GameField");
             <div id="chatusers">
                 <p><b>Игроки</b></p>
             </div>
+
         </div>
         <input id="hdId" type="hidden" />
         <input id="username" type="hidden" />
+        <div id="Users" hidden>
+            @Html.Partial("UserList");
+        </div> 
     </div>
-
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <!--Ссылка на библиотеку SignalR -->
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
