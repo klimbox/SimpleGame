@@ -14,10 +14,12 @@
             for (var j = 0; j < obj[i].length; j++)
             {
                 var x = "-";
-                if (obj[i][j] == 1) {
+                if (obj[i][j] == 1)
+                {
                     x = "X"
                 }
-                if (obj[i][j] == 2) {
+                if (obj[i][j] == 2)
+                {
                     x = "O";
                 }
                 $("#" + i + j).html(x);
@@ -25,13 +27,14 @@
         }        
     };
 
-    game.client.playerWin = function (name)
+    game.client.showMessage = function (message)
     {
-        alert("Победитель: " + name);
+        alert(message);
     };
 
     // Функция, вызываемая при подключении нового пользователя
-    game.client.onConnected = function (id, userName, allUsers) {
+    game.client.onConnected = function (id, userName, allUsers)
+    {
 
         $('#loginBlock').hide();
         $('#gameBody').show();
@@ -41,20 +44,23 @@
         $('#header').html('<h3>Добро пожаловать, ' + userName + '</h3>');
 
         // Добавление всех пользователей
-        for (i = 0; i < allUsers.length; i++) {
+        for (i = 0; i < allUsers.length; i++)
+        {
 
             AddUser(allUsers[i].ConnectionId, allUsers[i].Name);
         }
     }
 
     // Добавляем нового пользователя
-    game.client.onNewUserConnected = function (id, name) {
+    game.client.onNewUserConnected = function (id, name)
+    {
 
         AddUser(id, name);
     }
 
     // Удаляем пользователя
-    game.client.onUserDisconnected = function (id, userName) {
+    game.client.onUserDisconnected = function (id, userName)
+    {
 
         $('#' + id).remove();
     }
@@ -67,10 +73,12 @@
         {
 
             var name = $("#txtUserName").val();
-            if (name.length > 0) {
+            if (name.length > 0)
+            {
                 game.server.connect(name);
             }
-            else {
+            else
+            {
                 alert("Введите имя");
             }
         });
@@ -114,16 +122,19 @@
     });
 });
 // Кодирование тегов
-function htmlEncode(value) {
+function htmlEncode(value)
+{
     var encodedValue = $('<div />').text(value).html();
     return encodedValue;
 }
 //Добавление нового пользователя
-function AddUser(id, name) {
+function AddUser(id, name)
+{
 
     var userId = $('#hdId').val();
 
-    if (userId != id) {
+    if (userId != id)
+    {
 
         $("#chatusers").append('<p id="' + id + '"><b>' + name + '</b></p>');
     }

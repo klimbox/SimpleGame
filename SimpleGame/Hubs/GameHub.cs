@@ -13,24 +13,32 @@ namespace SimpleGame.Hubs
         // Отправка сообщений
         public void Send(string name, string message)
         {
+            if (game.IsFinished())
+            {
+                Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
+                return;
+            }
+
+            if (name != game.WhoNextTurn())
+            {
+                Clients.All.showMessage("Следующим ходит игрок: " + game.WhoNextTurn());
+                return;
+            }
+            
             game.Action(name, message);
             if(game.IsFinished())
             {
                 Clients.All.sendField(game.GetField());
-                Clients.All.playerWin(game.WhoWin());
+                Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
                 return;
             }
+            Clients.All.sendField(game.GetField());
         }
 
         // Подключение нового пользователя
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
-
-            if (Users.Count == 2)
-            {
-                game.StartGame(1, userName, Users.First().Name);
-            }
 
             if (!Users.Any(x => x.ConnectionId == id))
             {
@@ -41,6 +49,11 @@ namespace SimpleGame.Hubs
 
                 // Посылаем сообщение всем пользователям, кроме текущего
                 Clients.AllExcept(id).onNewUserConnected(id, userName);
+            }
+
+            if (Users.Count == 2)
+            {
+                game.StartGame(1, Users.First().Name, userName);
             }
         }
 

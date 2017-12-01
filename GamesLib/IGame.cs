@@ -16,5 +16,6 @@ namespace GamesLib
         string WhoWin(); // id победившего игрока
         string GetField(); // int[][] 0 - NULL 1-X 2-O 
         object GetResources(); // ??
+        string WhoNextTurn();
     }
 }

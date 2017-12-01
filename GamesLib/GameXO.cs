@@ -165,12 +165,19 @@ namespace GamesLib
                 res = false;
             }
 
+            _nextPlayerTurn = _playerXId;
+
             return res;
         }
 
         public string WhoWin()
         {
             return _winner;
+        }
+
+        public string WhoNextTurn()
+        {
+            return _nextPlayerTurn;
         }
     }
 }
