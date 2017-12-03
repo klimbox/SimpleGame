@@ -4,15 +4,15 @@
 
 @Styles.Render("~/Content/css")
 
-<div class="col-sm-2 sidenav">
 
-    <p><a href="#">player 1</a></p>
-    <p><a href="#">player 2</a></p>
-    <p><a href="#">player 3</a></p>
-</div>
+@Html.Partial("_PlayerList")
 
-<div class="col-sm-8 text-left">
-    <div id="loginBlock">
+<div class="col-sm-8 text-center">
+    <h2>Выберете игру:</h2>
+    <div class="well">
+        <p>@Html.ActionLink("Крестики-нолики", "Game", "Home")</p>
+    </div>
+    @*<div id="loginBlock">
         Ваше имя:<br />
         <input id="txtUserName" type="text" />
         <input id="btnLogin" type="button" value="Войти" />
@@ -29,9 +29,8 @@
     <input id="username" type="hidden" />
     <div id="Users" hidden>
         @Html.Partial("UserList");
-    </div>
+    </div>*@
 
-    @Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: new { returnUrl = "Index" }, htmlAttributes: new { id = "loginLink" })
 </div>
 
 <div class="col-sm-2 sidenav">

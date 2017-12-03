@@ -9,6 +9,7 @@ namespace SimpleGame.Hubs
     public class GameHub : Hub
     {
         static List<User> Users = new List<User>();
+
         static IGame game = new GameXO();
         // Отправка сообщений
         public void Send(string name, string message)
@@ -19,9 +20,9 @@ namespace SimpleGame.Hubs
                 return;
             }
 
-            if (name != game.WhoNextTurn())
+            if (game.WhoNextTurn() != null && name != game.WhoNextTurn())
             {
-                Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Следующим ходит игрок: " + game.WhoNextTurn());
+                Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Сейчас ходит игрок: " + game.WhoNextTurn());
                 return;
             }
             
@@ -30,7 +31,8 @@ namespace SimpleGame.Hubs
             {
                 Clients.All.sendField(game.GetField());
                 Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
-                return;
+                game = new GameXO();
+                //return;
             }
             Clients.All.sendField(game.GetField());
         }
@@ -40,7 +42,7 @@ namespace SimpleGame.Hubs
         {
             var id = Context.ConnectionId;
 
-            if (!Users.Any(x => x.ConnectionId == id))
+            if (!Users.Any(x => x.ConnectionId == id || x.Name == userName))
             {
                 Users.Add(new User { ConnectionId = id, Name = userName });
 
@@ -50,10 +52,34 @@ namespace SimpleGame.Hubs
                 // Посылаем сообщение всем пользователям, кроме текущего
                 Clients.AllExcept(id).onNewUserConnected(id, userName);
             }
-
-            if (Users.Count == 2)
+            else
             {
-                game.StartGame(1, Users.First().Name, userName);
+                Clients.Caller.showMessage("Вы уже в игре");
+            }
+
+            if (game != null && game.IsYourGame(id))
+            {
+                Clients.Client(id).sendField(game.GetField());
+            }
+        }
+
+        public void Invite(string userId)
+        {
+            User caller = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            string gameName = "крестики-нолики";
+            Clients.Client(userId).showInvitation(gameName, caller);
+        }
+
+        public void InvitationConfirm(bool isConfirm, User caller)
+        {
+            if (isConfirm)
+            {
+                game.StartGame(1, caller.Name, Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId).Name);
+                Clients.Client(caller.ConnectionId).showMessage("Ваше предложение принято!");
+            }
+            else
+            {
+                Clients.Client(caller.ConnectionId).showMessage("Игрок отклонил ваше предложение");
             }
         }
 

@@ -10,7 +10,8 @@ namespace GamesLib
     {
         bool StartGame(params object[] p);
         string GetGame();
-        bool IsYourGame(int id);
+        bool IsYourGame(int gameId);
+        bool IsYourGame(string playerId);
         void Action(string uId, string action);
         bool IsFinished(); // игра завершена?
         string WhoWin(); // id победившего игрока

@@ -149,6 +149,18 @@ namespace GamesLib
             return res;
         }
 
+        public bool IsYourGame(string playerId)
+        {
+            bool res = false;
+
+            if (_playerXId == playerId || _playerOId == playerId)
+            {
+                res = true;
+            }
+
+            return res;
+        }
+
         public bool StartGame(params object[] p)
         {
             bool res = true;
