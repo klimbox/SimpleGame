@@ -14,10 +14,10 @@ namespace SimpleGame
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
-            /*
+            
             bundles.Add(new ScriptBundle("~/bundles/jquerysignalR").Include(
-                        "~/Scripts/jquery.signalR-2.2.2.js"));
-
+                        "~/Scripts/jquery.signalR*"));
+/*
             bundles.Add(new ScriptBundle("~/bundles/jquerysignalRmin").Include(
                         "~/Scripts/jquery.signalR-2.2.2.min.js"));
             */

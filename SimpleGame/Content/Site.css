@@ -23,6 +23,8 @@ textarea {
     max-width: 280px;
 }
 
+
+/***************** Gamefield decoration ********************/
 #xo_field {
     width: 450px;
     border: hidden;
@@ -34,4 +36,79 @@ textarea {
     text-align: center;
     vertical-align: middle;
     font-size: 54pt;
+}
+
+/***************** Navigation Bar **************************/
+.navbar-custom {
+    background-color: #ff6a00;
+    color: #ffffff;
+    border-radius: 0;
+}
+
+    .navbar-custom .navbar-nav > li > a {
+        color: #fff;
+    }
+
+    .navbar-custom .navbar-nav > .active > a {
+        color: #ffffff;
+        background-color: transparent;
+    }
+
+        .navbar-custom .navbar-nav > li > a:hover,
+        .navbar-custom .navbar-nav > li > a:focus,
+        .navbar-custom .navbar-nav > .active > a:hover,
+        .navbar-custom .navbar-nav > .active > a:focus,
+        .navbar-custom .navbar-nav > .open > a {
+            text-decoration: none;
+            background-color: #ec6606;
+        }
+
+    .navbar-custom .navbar-brand {
+        color: #eeeeee;
+    }
+
+    .navbar-custom .navbar-toggle {
+        background-color: #ec6606;
+    }
+
+    .navbar-custom .icon-bar {
+        background-color: #ff6a00;
+    }
+
+/********************* Bootstrap rewrite options ******************************/
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+    height: 500px;
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+
+    .row.content {
+        height: auto;
+    }
 }

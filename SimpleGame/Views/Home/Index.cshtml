@@ -1,42 +1,51 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "Главная";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-    @Styles.Render("~/Content/css")
-</head>
-<body>
-    <h2>Крестики-нолики</h2>
 
-    <div class="main">
-        <div id="loginBlock">
-            Ваше имя:<br />
-            <input id="txtUserName" type="text" />
-            <input id="btnLogin" type="button" value="Войти" />
-        </div>
-        <div id="gameBody" hidden>
-            <div id="header"></div>           
-            @Html.Partial("GameField");
-            <div id="chatusers">
-                <p><b>Игроки</b></p>
-            </div>
+@Styles.Render("~/Content/css")
 
-        </div>
-        <input id="hdId" type="hidden" />
-        <input id="username" type="hidden" />
-        <div id="Users" hidden>
-            @Html.Partial("UserList");
-        </div>
+<div class="col-sm-2 sidenav">
 
-        @Html.ActionLink("Выполнить вход", "Login", "Home", routeValues: new { returnUrl = "Index" }, htmlAttributes: new { id = "loginLink" })
+    <p><a href="#">player 1</a></p>
+    <p><a href="#">player 2</a></p>
+    <p><a href="#">player 3</a></p>
+</div>
+
+<div class="col-sm-8 text-left">
+    <div id="loginBlock">
+        Ваше имя:<br />
+        <input id="txtUserName" type="text" />
+        <input id="btnLogin" type="button" value="Войти" />
     </div>
-    <script src="~/Scripts/jquery-3.2.1.js"></script>
-    <!--Ссылка на библиотеку SignalR -->
-    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <!--Ссылка на автоматически сгенерированный скрипт хаба SignalR -->
-    <script src="~/signalr/hubs"></script>
-    <script src="~/Scripts/util.js"></script>
-</body>
-</html>
+    <div id="gameBody" hidden>
+        <div id="header"></div>
+        @Html.Partial("GameField");
+        <div id="chatusers">
+            <p><b>Игроки</b></p>
+        </div>
+
+    </div>
+    <input id="hdId" type="hidden" />
+    <input id="username" type="hidden" />
+    <div id="Users" hidden>
+        @Html.Partial("UserList");
+    </div>
+
+    @Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: new { returnUrl = "Index" }, htmlAttributes: new { id = "loginLink" })
+</div>
+
+<div class="col-sm-2 sidenav">
+    <div class="well">
+        <p>room 1</p>
+    </div>
+    <div class="well">
+        <p>room 2</p>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery", "~/bundles/jquerysignalR", "~/signalr/hubs")
+}
+
+<script src="~/Scripts/util.js"></script>
+@*</body>
+    </html>*@
