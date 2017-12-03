@@ -28,7 +28,9 @@
         <input id="username" type="hidden" />
         <div id="Users" hidden>
             @Html.Partial("UserList");
-        </div> 
+        </div>
+
+        @Html.ActionLink("Выполнить вход", "Login", "Home", routeValues: new { returnUrl = "Index" }, htmlAttributes: new { id = "loginLink" })
     </div>
     <script src="~/Scripts/jquery-3.2.1.js"></script>
     <!--Ссылка на библиотеку SignalR -->
