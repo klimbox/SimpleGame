@@ -12,25 +12,7 @@
     <div class="well">
         <p>@Html.ActionLink("Крестики-нолики", "Game", "Home")</p>
     </div>
-    @*<div id="loginBlock">
-        Ваше имя:<br />
-        <input id="txtUserName" type="text" />
-        <input id="btnLogin" type="button" value="Войти" />
-    </div>
-    <div id="gameBody" hidden>
-        <div id="header"></div>
-        @Html.Partial("GameField");
-        <div id="chatusers">
-            <p><b>Игроки</b></p>
-        </div>
-
-    </div>
-    <input id="hdId" type="hidden" />
-    <input id="username" type="hidden" />
-    <div id="Users" hidden>
-        @Html.Partial("UserList");
-    </div>*@
-
+    <input id="username" value='@User.Identity.Name' type="hidden" />
 </div>
 
 <div class="col-sm-2 sidenav">
@@ -42,9 +24,5 @@
     </div>
 </div>
 @section Scripts {
-    @Scripts.Render("~/bundles/jquery", "~/bundles/jquerysignalR", "~/signalr/hubs")
+    @Scripts.Render("~/bundles/jquery", "~/bundles/jquerysignalR", "~/signalr/hubs", "~/Scripts/initHub.js")
 }
-
-<script src="~/Scripts/util.js"></script>
-@*</body>
-    </html>*@
