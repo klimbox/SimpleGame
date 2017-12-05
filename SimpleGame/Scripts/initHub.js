@@ -7,9 +7,9 @@
         $(document).ready(function () {
             var name = $("#username").val();
             if (name) {
-                game.server.connect(name);
+                game.server.joinHub();
 
-                alert('Connected!');
+                alert('Joined!');
             }
         })
     });

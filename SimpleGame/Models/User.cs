@@ -9,5 +9,13 @@ namespace SimpleGame.Models
     {
         public string ConnectionId { get; set; }
         public string Name { get; set; }
+        public bool IsInGame { get; set; }
+
+        public User(string name, string connectId, bool isInGame = false)
+        {
+            Name = name;
+            ConnectionId = connectId;
+            IsInGame = isInGame;
+        }
     }
 }
