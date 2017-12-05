@@ -9,30 +9,60 @@ namespace GamesLib
 {
     public class GameXO : IGame
     {
-        private int _gameId;
         private int[,] _field = null;
         private string _playerXId;
         private string _playerOId;
-        private bool _isFiniShed; //0 - NULL 1-X 2-O 
-        private string _gameName = null;
-        private string _winner;
-        private string _nextPlayerTurn;
+        private bool test = false;
+
+        public int Id
+        {
+            private set;
+            get;
+        }
+
+        public string Name
+        {
+            private set;
+            get;
+        }
+
+        public string Winner
+        {
+            private set;
+            get;
+        }
+
+        public string WhoseNextMove
+        {
+            private set;
+            get;
+        }
+
+        public GameState CurrentState
+        {
+            private set;
+            get;
+        }
 
         public GameXO()
         {
             _field = new int[3,3];
-            _isFiniShed = false;
-            _gameName = "XO";
+            Name = "XO";
+            CurrentState = GameState.WaitingForPlayers;
         }
 
-        public void Action(string uId, string action)
+    public void Action(string uId, string action)
         {
-            string[] pos;
+            if (CurrentState != GameState.InProgress)
+                return;
+            if (uId != WhoseNextMove && !test)
+                throw new Exception();
+
             int i, j;           
 
             try
             {
-                pos = action.Split(',');
+                string[] pos = action.Split(',');
                 i = Convert.ToInt32(pos[0]);
                 j = Convert.ToInt32(pos[1]);
             }
@@ -48,15 +78,26 @@ namespace GamesLib
             if (uId == _playerXId)
             {
                 _field[i, j] = 1; // X
-                _nextPlayerTurn = _playerOId;
+                WhoseNextMove = _playerOId;
             }
             else if (uId == _playerOId)
             {
                 _field[i, j] = 2; // O
-                _nextPlayerTurn = _playerXId;
+                WhoseNextMove = _playerXId;
             }
 
             ChechGameEnd();
+            ChechGameDraw();
+        }
+
+        private void ChechGameDraw()
+        {
+            foreach (int item in _field)
+            {
+                if (item == 0)
+                    return;
+            }
+            CurrentState = GameState.EndWithDraw;            
         }
 
         private void ChechGameEnd()
@@ -66,52 +107,52 @@ namespace GamesLib
             {
                 if(_field[i,0] == 1 && _field[i, 1] == 1 && _field[i, 2] == 1)
                 {
-                    _winner = _playerXId;
-                    _isFiniShed = true;
+                    Winner = _playerXId;
+                    CurrentState = GameState.EndWithWinner;
                     return;
                 }
                 if (_field[0, i] == 1 && _field[1, i] == 1 && _field[2, i] == 1)
                 {
-                    _winner = _playerXId;
-                    _isFiniShed = true;
+                    Winner = _playerXId;
+                    CurrentState = GameState.EndWithWinner;
                     return;
                 }
 
                 if (_field[i, 0] == 2 && _field[i, 1] == 2 && _field[i, 2] == 2)
                 {
-                    _winner = _playerOId;
-                    _isFiniShed = true;
+                    Winner = _playerOId;
+                    CurrentState = GameState.EndWithWinner;
                     return;
                 }
                 if (_field[0, i] == 2 && _field[1, i] == 2 && _field[2, i] == 2)
                 {
-                    _winner = _playerOId;
-                    _isFiniShed = true;
+                    Winner = _playerOId;
+                    CurrentState = GameState.EndWithWinner;
                     return;
                 }
             }
             if(_field[0, 0] == 2 && _field[1, 1] == 2 && _field[2, 2] == 2)
             {
-                _winner = _playerOId;
-                _isFiniShed = true;
+                Winner = _playerOId;
+                CurrentState = GameState.EndWithWinner;
                 return;
             }
             if (_field[0, 2] == 2 && _field[1, 1] == 2 && _field[2, 0] == 2)
             {
-                _winner = _playerOId;
-                _isFiniShed = true;
+                Winner = _playerOId;
+                CurrentState = GameState.EndWithWinner;
                 return;
             }
             if (_field[0, 0] == 1 && _field[1, 1] == 1 && _field[2, 2] == 1)
             {
-                _winner = _playerXId;
-                _isFiniShed = true;
+                Winner = _playerXId;
+                CurrentState = GameState.EndWithWinner;
                 return;
             }
             if (_field[0, 2] == 1 && _field[1, 1] == 1 && _field[2, 0] == 1)
             {
-                _winner = _playerXId;
-                _isFiniShed = true;
+                Winner = _playerXId;
+                CurrentState = GameState.EndWithWinner;
                 return;
             }
         }
@@ -122,43 +163,9 @@ namespace GamesLib
             return res;
         }
 
-        public string GetGame()
-        {
-            return _gameName;
-        }
-
         public object GetResources()
         {
             return null;
-        }
-
-        public bool IsFinished()
-        {
-            return _isFiniShed;
-        }
-
-        public bool IsYourGame(int id)
-        {
-            bool res = false;
-
-            if (_gameId == id)
-            {
-                res = true;
-            }
-
-            return res;
-        }
-
-        public bool IsYourGame(string playerId)
-        {
-            bool res = false;
-
-            if (_playerXId == playerId || _playerOId == playerId)
-            {
-                res = true;
-            }
-
-            return res;
         }
 
         public bool StartGame(params object[] p)
@@ -167,7 +174,7 @@ namespace GamesLib
 
             try
             {
-                _gameId = (int)p[0];
+                Id = (int)p[0];
                 _playerXId = (string)p[1];
                 _playerOId = (string)p[2];
 
@@ -177,19 +184,54 @@ namespace GamesLib
                 res = false;
             }
 
-            _nextPlayerTurn = _playerXId;
+            WhoseNextMove = _playerXId;
+
+            CurrentState = GameState.InProgress;
 
             return res;
         }
 
         public string WhoWin()
         {
-            return _winner;
+            return Winner;
         }
 
-        public string WhoNextTurn()
+        public void AddPlayer(string userId)
         {
-            return _nextPlayerTurn;
+            if (_playerXId != null && _playerOId != null)
+            {
+                throw new Exception();
+            }
+
+            if (_playerXId == null)
+                _playerXId = userId;
+            else
+                _playerOId = userId;
+        }
+
+        public void StartGame()
+        {
+            Id = GetHashCode();
+            if (_playerXId != null && _playerOId != null)
+            {
+                WhoseNextMove = _playerXId;
+                CurrentState = GameState.InProgress;
+            }
+        }
+
+        public void AddPlayer(string userId, int order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetTest()
+        {
+            test = true;
+        }
+
+        public void SetReal()
+        {
+            test = false;
         }
     }
 }

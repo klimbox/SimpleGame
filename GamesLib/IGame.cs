@@ -6,17 +6,21 @@ using System.Threading.Tasks;
 
 namespace GamesLib
 {
+    public enum GameState {WaitingForPlayers, InProgress, EndWithWinner,  EndWithDraw}
+
     public interface IGame
     {
-        bool StartGame(params object[] p);
-        string GetGame();
-        bool IsYourGame(int gameId);
-        bool IsYourGame(string playerId);
-        void Action(string uId, string action);
-        bool IsFinished(); // игра завершена?
-        string WhoWin(); // id победившего игрока
+        int Id { get; }
+        string Name { get; }
+        string Winner { get; }
+        string WhoseNextMove { get; }
+        GameState CurrentState { get; }
+        // -- metdods
+        void AddPlayer(string userId);
+        void AddPlayer(string userId, int order);
+        void StartGame();
+        void Action(string userId, string action);
         string GetField(); // int[][] 0 - NULL 1-X 2-O 
         object GetResources(); // ??
-        string WhoNextTurn();
     }
 }
