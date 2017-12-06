@@ -56,8 +56,9 @@ namespace SimpleGame.Controllers
         }
 
         [Authorize]
-        public ActionResult Game()
-        {           
+        public ActionResult Game(string id)
+        {
+            ViewBag.GameName = id;
             return View();
         }
 

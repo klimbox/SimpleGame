@@ -46,6 +46,7 @@ namespace GamesLib
 
         public GameXO()
         {
+            Id = GetHashCode();
             _field = new int[3,3];
             Name = "XO";
             CurrentState = GameState.WaitingForPlayers;
@@ -211,7 +212,6 @@ namespace GamesLib
 
         public void StartGame()
         {
-            Id = GetHashCode();
             if (_playerXId != null && _playerOId != null)
             {
                 WhoseNextMove = _playerXId;

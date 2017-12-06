@@ -15,16 +15,17 @@ namespace SimpleGame.Services
             _usrLst = new List<User>();
         }
 
-        internal void AddUser(string name, string connectionId, bool isInGame = false)
+        internal void AddUser(string name, string connectionId, bool isInGame = false, int gameId = 0)
         {
             if (_usrLst.Any(u => u.Name == name))
             {
                 var usr = _usrLst.Find(u => u.Name == name);
                 usr.ConnectionId = connectionId;
                 usr.IsInGame = isInGame;
+                usr.GameId = gameId;
                 return;
             }
-            _usrLst.Add(new User(name, connectionId, isInGame));
+            _usrLst.Add(new User(name, connectionId, isInGame, gameId));
         }
     }
 }

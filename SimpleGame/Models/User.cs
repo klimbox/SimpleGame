@@ -10,8 +10,10 @@ namespace SimpleGame.Models
         public string ConnectionId { get; set; }
         public string Name { get; set; }
         public bool IsInGame { get; set; }
+        public int GameId { get; set; }
 
-        public User(string name, string connectId, bool isInGame = false)
+
+        public User(string name, string connectId, bool isInGame = false, int gameId = 0)
         {
             Name = name;
             ConnectionId = connectId;

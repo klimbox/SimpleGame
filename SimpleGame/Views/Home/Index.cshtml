@@ -10,18 +10,13 @@
 <div class="col-sm-8 text-center">
     <h2>Выберете игру:</h2>
     <div class="well">
-        <p>@Html.ActionLink("Крестики-нолики", "Game", "Home")</p>
+        <p>@Html.ActionLink("Крестики-нолики", "Game", "Home", new { id = "XO" }, null)</p>
     </div>
     <input id="username" value='@User.Identity.Name' type="hidden" />
 </div>
 
-<div class="col-sm-2 sidenav">
-    <div class="well">
-        <p>room 1</p>
-    </div>
-    <div class="well">
-        <p>room 2</p>
-    </div>
+<div class="col-sm-2 sidenav" id="rooms">
+
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jquery", "~/bundles/jquerysignalR", "~/signalr/hubs", "~/Scripts/initHub.js")

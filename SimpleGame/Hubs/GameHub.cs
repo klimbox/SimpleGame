@@ -12,7 +12,9 @@ namespace SimpleGame.Hubs
     {
         //static List<User> Users = new List<User>();
         static IGame game = new GameXO();
+
         private static UserManager _usrMngr = new UserManager();
+        private static GameFactory _gameFactory = new GameFactory();
 
         // 
         public void JoinHub()
@@ -20,39 +22,45 @@ namespace SimpleGame.Hubs
             if (Context.User.Identity.IsAuthenticated)
             {
                 _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId);
-
             }
+            Clients.Caller.GetAvailableGames(_gameFactory.GetAvailableGames());
+
         }
 
-        public void ConnectToGame()
+
+        public void StartNewGame(string gameName)
         {
-            _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId, true);
             //create game instance
+            int gameId = _gameFactory.StartNewGame(gameName);
+            _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId, true, gameId);
+
         }
+
+
 
         // Отправка сообщений
         public void Send(string name, string message)
         {
-            if (game.IsFinished())
-            {
-                Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
-                return;
-            }
+            //if (game.IsFinished())
+            //{
+            //    Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
+            //    return;
+            //}
 
-            if (game.WhoNextTurn() != null && name != game.WhoNextTurn())
-            {
-                // Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Сейчас ходит игрок: " + game.WhoNextTurn());
-                return;
-            }
+            //if (game.WhoNextTurn() != null && name != game.WhoNextTurn())
+            //{
+            //    // Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Сейчас ходит игрок: " + game.WhoNextTurn());
+            //    return;
+            //}
 
-            game.Action(name, message);
-            if (game.IsFinished())
-            {
-                Clients.All.sendField(game.GetField());
-                Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
-                game = new GameXO();
-                //return;
-            }
+            //game.Action(name, message);
+            //if (game.IsFinished())
+            //{
+            //    Clients.All.sendField(game.GetField());
+            //    Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
+            //    game = new GameXO();
+            //    //return;
+            //}
             Clients.All.sendField(game.GetField());
         }
 

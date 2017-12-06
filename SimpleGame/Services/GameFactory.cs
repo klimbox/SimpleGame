@@ -1,10 +1,11 @@
-﻿using System;
+﻿using GamesLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GamesLib
+namespace SimpleGame.Services
 {
     public class GameFactory
     {
@@ -18,15 +19,21 @@ namespace GamesLib
         /// Start new game
         /// </summary>
         /// <param name="name">type of game</param>
-        public void StartNewGame(string name)
+        public int StartNewGame(string name)
         {
+            IGame game;
             switch (name)
             {
-                case "XO": CurrentGames.Add(new GameXO());
+                case "XO":
+                    game = new GameXO();
+                    CurrentGames.Add(game);
                     break;
                 default:
+                    game = new GameXO();
                     break;
             }
+
+            return game.Id;
         }
         /// <summary>
         /// Add new player to game
@@ -85,6 +92,11 @@ namespace GamesLib
             res = CurrentGames.Find(g => g.Id == id).Winner;
 
             return res;
+        }
+
+        public List<IGame> GetAvailableGames()
+        {
+            return CurrentGames.FindAll(g => g.CurrentState == GameState.WaitingForPlayers);
         }
     }
 }
