@@ -19,9 +19,15 @@
         }
     }
 
+    // Показывает польз-лю диалог приглашения в игру
+    game.client.showInvitation = function (currGame) {
+        result = confirm("Хочешь сыграть в '" + currGame.Name + "' с игроком " + currGame.GameOwnerName);
+        game.server.invitationConfirm(result, currGame);
+    }
 });
 
 function showAvailableGame(gm) {
-    $("#rooms").append('<div class="well" id="' + gm.Id + '"><p>Игра: ' + gm.Name + '</p>' +
+    $("#rooms").append('<div class="well" id="' + gm.Id + '"><p>Игра: ' + gm.Name + gm.Id + '</p>' +
+        '<p>Инициатор: ' + gm.PlayerNameX + '</p>' +
             '<input type="button" value="Присоединиться" onclick="JoinToGame(' + "'" + gm.Id + "'" + ')" /></div>');
 }

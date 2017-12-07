@@ -2,12 +2,12 @@
     ViewBag.Title = "Главная";
 }
 
-@Styles.Render("~/Content/css")
+@*@Styles.Render("~/Content/css")*@
 
 
-@Html.Partial("_PlayerList")
+@*@Html.Partial("_PlayerList")*@
 
-<div class="col-sm-8 text-center">
+<div class="col-sm-10 text-center">
     <h2>Выберете игру:</h2>
     <div class="well">
         <p>@Html.ActionLink("Крестики-нолики", "Game", "Home", new { id = "XO" }, null)</p>
@@ -16,8 +16,10 @@
 </div>
 
 <div class="col-sm-2 sidenav" id="rooms">
+    <h3>Присоединиться к игре:</h3>
 
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jquery", "~/bundles/jquerysignalR", "~/signalr/hubs", "~/Scripts/initHub.js")
 }
+

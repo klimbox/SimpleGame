@@ -18,6 +18,7 @@ namespace SimpleGame.Models
             Name = name;
             ConnectionId = connectId;
             IsInGame = isInGame;
+            GameId = gameId;
         }
     }
 }

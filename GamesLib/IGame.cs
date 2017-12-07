@@ -13,6 +13,7 @@ namespace GamesLib
         int Id { get; }
         string Name { get; }
         string Winner { get; }
+        string GameOwnerName { get; }
         string WhoseNextMove { get; }
         GameState CurrentState { get; }
         // -- metdods
@@ -21,6 +22,7 @@ namespace GamesLib
         void StartGame();
         void Action(string userId, string action);
         string GetField(); // int[][] 0 - NULL 1-X 2-O 
+        bool IsUserInGame(string usrName);
         object GetResources(); // ??
     }
 }

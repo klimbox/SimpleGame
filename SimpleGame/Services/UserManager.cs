@@ -27,5 +27,20 @@ namespace SimpleGame.Services
             }
             _usrLst.Add(new User(name, connectionId, isInGame, gameId));
         }
+
+        internal List<User> GetAvailableUsers()
+        {
+            return _usrLst.FindAll(u => u.IsInGame == false);
+        }
+
+        internal List<User> GetUsersInGame()
+        {
+            return _usrLst.FindAll(u => u.IsInGame == true);
+        }
+
+        internal User GetUserByName(string usrName)
+        {
+            return _usrLst.FirstOrDefault(u => u.Name == usrName);
+        }
     }
 }

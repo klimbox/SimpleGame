@@ -18,14 +18,18 @@ namespace SimpleGame.Services
         /// <summary>
         /// Start new game
         /// </summary>
-        /// <param name="name">type of game</param>
-        public int StartNewGame(string name)
+        /// <param name="gameName">type of game</param>
+        public int StartNewGame(string gameName, string usrName)
         {
+            if (CurrentGames.Any(g => g.IsUserInGame(usrName)))
+            {
+                return CurrentGames.Find(g => g.IsUserInGame(usrName)).Id;
+            }
             IGame game;
-            switch (name)
+            switch (gameName)
             {
                 case "XO":
-                    game = new GameXO();
+                    game = new GameXO(usrName);
                     CurrentGames.Add(game);
                     break;
                 default:
@@ -38,11 +42,11 @@ namespace SimpleGame.Services
         /// <summary>
         /// Add new player to game
         /// </summary>
-        /// <param name="id">Game Id</param>
+        /// <param name="gameId">Game Id</param>
         /// <param name="player">Player Id</param>
-        public void AddPlayerToGame(int id, string player)
+        public void AddPlayerToGame(int gameId, string player)
         {
-            CurrentGames.Find(g => g.Id == id).AddPlayer(player);
+            CurrentGames.Find(g => g.Id == gameId).AddPlayer(player);
         }
         /// <summary>
         /// Start game

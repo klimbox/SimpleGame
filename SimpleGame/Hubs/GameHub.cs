@@ -11,7 +11,7 @@ namespace SimpleGame.Hubs
     public class GameHub : Hub
     {
         //static List<User> Users = new List<User>();
-        static IGame game = new GameXO();
+        //static IGame game = new GameXO();
 
         private static UserManager _usrMngr = new UserManager();
         private static GameFactory _gameFactory = new GameFactory();
@@ -25,15 +25,52 @@ namespace SimpleGame.Hubs
             }
             Clients.Caller.GetAvailableGames(_gameFactory.GetAvailableGames());
 
+            //send to users in game
+            var userIds = _usrMngr.GetUsersInGame().Select(u => u.ConnectionId).ToList();
+            Clients.Clients(userIds).ShowUsers(_usrMngr.GetAvailableUsers());
         }
 
 
         public void StartNewGame(string gameName)
         {
+            string usrName = Context.User.Identity.Name;
             //create game instance
-            int gameId = _gameFactory.StartNewGame(gameName);
-            _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId, true, gameId);
+            int gameId = _gameFactory.StartNewGame(gameName, usrName);
+            _usrMngr.AddUser(usrName, Context.ConnectionId, true, gameId);
 
+            var userIds = _usrMngr.GetAvailableUsers().Select(u => u.ConnectionId).ToList();
+            Clients.Clients(userIds).GetAvailableGames(_gameFactory.GetAvailableGames());
+
+            Clients.Caller.ShowUsers(_usrMngr.GetAvailableUsers());
+        }
+
+        public void Invite(string usrName, string gameName)
+        {
+            User caller = _usrMngr.GetUserByName(Context.User.Identity.Name);
+
+            IGame currGame = _gameFactory.GetAvailableGames().Find(g => g.GameOwnerName == caller.Name);
+
+            Clients.Client(_usrMngr.GetUserByName(usrName).ConnectionId).ShowInvitation(currGame);
+        }
+        public void InvitationConfirm(bool isConfirm, string callerName)
+        {
+            Clients.Client(_usrMngr.GetUserByName(callerName).ConnectionId).ShowMessage("testing");
+        }
+        public void InvitationConfirm(bool isConfirm, IGame currGame)
+        {
+            User caller = _usrMngr.GetUserByName(currGame.GameOwnerName);
+
+            if (isConfirm)
+            {
+                _gameFactory.AddPlayerToGame(currGame.Id, Context.User.Identity.Name);
+                _gameFactory.StartGame(currGame.Id);
+
+                Clients.Client(caller.ConnectionId).ShowMessage("Ваше предложение принято!");
+            }
+            else
+            {
+                Clients.Client(caller.ConnectionId).ShowMessage("Игрок отклонил ваше предложение");
+            }
         }
 
 
@@ -61,7 +98,7 @@ namespace SimpleGame.Hubs
             //    game = new GameXO();
             //    //return;
             //}
-            Clients.All.sendField(game.GetField());
+            //Clients.All.sendField(game.GetField());
         }
 
         // Подключение нового пользователя
@@ -92,25 +129,9 @@ namespace SimpleGame.Hubs
             //}
         }
 
-        //public void Invite(string userId)
-        //{
-        //    User caller = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-        //    string gameName = "крестики-нолики";
-        //    Clients.Client(userId).showInvitation(gameName, caller);
-        //}
 
-        //public void InvitationConfirm(bool isConfirm, User caller)
-        //{
-        //    if (isConfirm)
-        //    {
-        //        game.StartGame(1, caller.Name, Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId).Name);
-        //        Clients.Client(caller.ConnectionId).showMessage("Ваше предложение принято!");
-        //    }
-        //    else
-        //    {
-        //        Clients.Client(caller.ConnectionId).showMessage("Игрок отклонил ваше предложение");
-        //    }
-        //}
+
+
         public override Task OnConnected()
         {
             return base.OnConnected();
