@@ -22,7 +22,12 @@
     // Показывает польз-лю диалог приглашения в игру
     game.client.showInvitation = function (currGame) {
         result = confirm("Хочешь сыграть в '" + currGame.Name + "' с игроком " + currGame.GameOwnerName);
-        game.server.invitationConfirm(result, currGame);
+        game.server.invitationConfirm(result, currGame.Id, currGame.GameOwnerName);
+    }
+
+    //
+    game.client.redirectToGame = function (){
+        $(location).attr('href', 'http://localhost:54591/Home/Game')
     }
 });
 
@@ -31,3 +36,4 @@ function showAvailableGame(gm) {
         '<p>Инициатор: ' + gm.PlayerNameX + '</p>' +
             '<input type="button" value="Присоединиться" onclick="JoinToGame(' + "'" + gm.Id + "'" + ')" /></div>');
 }
+

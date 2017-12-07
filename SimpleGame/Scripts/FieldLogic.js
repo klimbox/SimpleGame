@@ -3,31 +3,31 @@
     var game = $.connection.gameHub;
 
     $("#00").click(function () {
-        game.server.send($('#username').val(), "0,0");
+        game.server.doAction($('#username').val(), "0,0");
     });
     $("#01").click(function () {
-        game.server.send($('#username').val(), "0,1");
+        game.server.doAction($('#username').val(), "0,1");
     });
     $("#02").click(function () {
-        game.server.send($('#username').val(), "0,2");
+        game.server.doAction($('#username').val(), "0,2");
     });
     $("#10").click(function () {
-        game.server.send($('#username').val(), "1,0");
+        game.server.doAction($('#username').val(), "1,0");
     });
     $("#11").click(function () {
-        game.server.send($('#username').val(), "1,1");
+        game.server.doAction($('#username').val(), "1,1");
     });
     $("#12").click(function () {
-        game.server.send($('#username').val(), "1,2");
+        game.server.doAction($('#username').val(), "1,2");
     });
     $("#20").click(function () {
-        game.server.send($('#username').val(), "2,0");
+        game.server.doAction($('#username').val(), "2,0");
     });
     $("#21").click(function () {
-        game.server.send($('#username').val(), "2,1");
+        game.server.doAction($('#username').val(), "2,1");
     });
     $("#22").click(function () {
-        game.server.send($('#username').val(), "2,2");
+        game.server.doAction($('#username').val(), "2,2");
     });
 
     game.client.sendField = function (field)
@@ -48,8 +48,9 @@
         }
     };
 
-    game.client.showMessage = function (message)
+    game.client.showMessageAndRedirect = function (message)
     {
         alert(message);
+        $(location).attr('href', 'http://localhost:54591');
     };
 });

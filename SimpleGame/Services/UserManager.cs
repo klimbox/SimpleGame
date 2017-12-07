@@ -33,7 +33,7 @@ namespace SimpleGame.Services
             return _usrLst.FindAll(u => u.IsInGame == false);
         }
 
-        internal List<User> GetUsersInGame()
+        internal List<User> GetAllUsersInGame()
         {
             return _usrLst.FindAll(u => u.IsInGame == true);
         }
@@ -41,6 +41,11 @@ namespace SimpleGame.Services
         internal User GetUserByName(string usrName)
         {
             return _usrLst.FirstOrDefault(u => u.Name == usrName);
+        }
+
+        internal List<User> GetUsersInGame(int gameId)
+        {
+            return _usrLst.FindAll(u => u.GameId == gameId);
         }
     }
 }

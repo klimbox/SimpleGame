@@ -67,7 +67,7 @@ namespace GamesLib
             if (uId != WhoseNextMove && !test)
                 throw new Exception();
 
-            int i, j;           
+            int i, j;            
 
             try
             {

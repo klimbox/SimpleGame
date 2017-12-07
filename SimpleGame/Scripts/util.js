@@ -22,9 +22,9 @@
     }
 
     //
-    game.client.showMessage = function (msg) {
-        alert(msg);
-    }
+    //game.client.showMessage = function (msg) {
+    //    alert(msg);
+    //}
 
     //// Показывает польз-лю диалог приглашения в игру
     //game.client.showInvitation = function (gameName, caller) {
@@ -66,21 +66,7 @@ function AddUserToPage(usrName) {
 }
 
 
-
-////Добавление нового пользователя
-//function AddUser(id, name)
-//{
-//    var userId = $('#hdId').val();
-
-//    if (userId != id)
-//    {
-//        $("#player-list").append('<p id="' + id + '"><b>' + name + '   </b>' +
-//                                '<input type="button" value="Пригласить" onclick="InvPlayer(' + "'" + id + "'" + ')" /></p>');
-//    }
-//}
-
 function InvitePlayer(name) {
     var game = $.connection.gameHub;
-    var gameName = $("#gamename").val();
-    game.server.invite(name, gameName);
+    game.server.invite(name);
 }
