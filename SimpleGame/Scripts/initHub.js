@@ -14,6 +14,8 @@
 
     // Получаем список запущенныех игр с доступными слотами для игроков
     game.client.getAvailableGames = function (games) {
+        $("div#rooms").empty();
+        $("#rooms").append('<h3>Присоединиться к игре:</h3>');
         for (var i = 0; i < games.length; i++) {
             showAvailableGame(games[i]);
         }
@@ -32,7 +34,7 @@
 });
 
 function showAvailableGame(gm) {
-    $("#rooms").append('<div class="well" id="' + gm.Id + '"><p>Игра: ' + gm.Name + gm.Id + '</p>' +
+    $("#rooms").append('<div class="well" id="' + gm.Id + '"><p>Игра: ' + gm.Name + '(' + gm.Id + ')</p>' +
         '<p>Инициатор: ' + gm.PlayerNameX + '</p>' +
             '<input type="button" value="Присоединиться" onclick="JoinToGame(' + "'" + gm.Id + "'" + ')" /></div>');
 }
