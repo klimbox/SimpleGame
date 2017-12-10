@@ -102,5 +102,10 @@ namespace SimpleGame.Services
         {
             return CurrentGames.FindAll(g => g.CurrentState == GameState.WaitingForPlayers);
         }
+
+        internal void Destroy(int gameId)
+        {
+            CurrentGames.Remove(CurrentGames.FirstOrDefault(g => g.Id == gameId));
+        }
     }
 }

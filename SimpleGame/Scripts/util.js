@@ -21,17 +21,6 @@
         }
     }
 
-    //
-    //game.client.showMessage = function (msg) {
-    //    alert(msg);
-    //}
-
-    //// Показывает польз-лю диалог приглашения в игру
-    //game.client.showInvitation = function (gameName, caller) {
-    //    result = confirm("Хочешь сыграть в '" + gameName + "' с игроком " + caller.Name);
-    //    game.server.invitationConfirm(result, caller);
-    //}
-
     // Функция, вызываемая при подключении нового пользователя
     game.client.onConnected = function (id, userName, allUsers)
     {

@@ -10,19 +10,21 @@ namespace SimpleGame.Hubs
 {
     public class GameHub : Hub
     {
-        //static List<User> Users = new List<User>();
-        //static IGame game = new GameXO();
-
         private static UserManager _usrMngr = new UserManager();
         private static GameFactory _gameFactory = new GameFactory();
 
         // 
         public void JoinHub()
         {
-            if (Context.User.Identity.IsAuthenticated)
+            if (_usrMngr.IsNewUser(Context.User.Identity.Name))
             {
                 _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId);
             }
+            else
+            {
+                _usrMngr.UpdateUserInfo(Context.User.Identity.Name, Context.ConnectionId);
+            }
+
             Clients.Caller.GetAvailableGames(_gameFactory.GetAvailableGames());
 
             //send to users in game
@@ -33,25 +35,29 @@ namespace SimpleGame.Hubs
 
         public void StartNewGame(string gameName)
         {
-            string usrName = Context.User.Identity.Name;
-            //try
-            //{
-            //    if (_usrMngr.GetUserByName(usrName).IsInGame)
-            //    {
-            //        return;
-            //    }
-            //}
-            //catch (System.Exception)
-            //{
-            //}
-            //create game instance
-            int gameId = _gameFactory.StartNewGame(gameName, usrName);
-            _usrMngr.AddUser(usrName, Context.ConnectionId, true, gameId);
+            if (Context.User.Identity.IsAuthenticated)
+            {
+                string usrName = Context.User.Identity.Name;
+                try
+                {
+                    if (_usrMngr.GetUserByName(usrName).IsInGame)
+                    {
+                        _usrMngr.UpdateUserInfo(Context.User.Identity.Name, Context.ConnectionId);
+                        return;
+                    }
+                }
+                catch (System.Exception)
+                {
+                }
+                //create game instance
+                int gameId = _gameFactory.StartNewGame(gameName, usrName);
+                _usrMngr.UpdateUserInfo(usrName, Context.ConnectionId, true, gameId);
 
-            var userIds = _usrMngr.GetAvailableUsers().Select(u => u.ConnectionId).ToList();
-            Clients.Clients(userIds).GetAvailableGames(_gameFactory.GetAvailableGames());
+                var userIds = _usrMngr.GetAvailableUsers().Select(u => u.ConnectionId).ToList();
+                Clients.Clients(userIds).GetAvailableGames(_gameFactory.GetAvailableGames());
 
-            Clients.Caller.ShowUsers(_usrMngr.GetAvailableUsers());
+                Clients.Caller.ShowUsers(_usrMngr.GetAvailableUsers()); 
+            }
         }
 
         public void Invite(string usrName)
@@ -124,61 +130,9 @@ namespace SimpleGame.Hubs
                 players[i].IsInGame = false;
                 players[i].GameId = 0;
             }
+            _gameFactory.Destroy(gameId);
         }
 
-        // Отправка сообщений
-        public void Send(string name, string message)
-        {
-            //if (game.IsFinished())
-            //{
-            //    Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
-            //    return;
-            //}
-
-            //if (game.WhoNextTurn() != null && name != game.WhoNextTurn())
-            //{
-            //    // Clients.AllExcept(Users.Find(x => x.Name == game.WhoNextTurn()).ConnectionId).showMessage("Сейчас ходит игрок: " + game.WhoNextTurn());
-            //    return;
-            //}
-
-            //game.Action(name, message);
-            //if (game.IsFinished())
-            //{
-            //    Clients.All.sendField(game.GetField());
-            //    Clients.All.showMessage("Игра закончена, победил игрок: " + game.WhoWin());
-            //    game = new GameXO();
-            //    //return;
-            //}
-            //Clients.All.sendField(game.GetField());
-        }
-
-        // Подключение нового пользователя
-        public void Connect(string userName)
-        {
-            _usrMngr.AddUser(Context.User.Identity.Name, Context.ConnectionId, true);
-
-            //var id = Context.ConnectionId;
-
-            //if (!Users.Any(x => x.ConnectionId == id || x.Name == userName))
-            //{
-            //    Users.Add(new User { ConnectionId = id, Name = userName });
-
-            //    // Посылаем сообщение текущему пользователю
-            //    Clients.Caller.onConnected(id, userName, Users);
-
-            //    // Посылаем сообщение всем пользователям, кроме текущего
-            //    Clients.AllExcept(id).onNewUserConnected(id, userName);
-            //}
-            //else
-            //{
-            //    Clients.Caller.showMessage("Вы уже в игре");
-            //}
-
-            //if (game != null && game.IsYourGame(id))
-            //{
-            //    Clients.Client(id).sendField(game.GetField());
-            //}
-        }
 
 
 
@@ -190,14 +144,6 @@ namespace SimpleGame.Hubs
         // Отключение пользователя
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
-            //var item = Users.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
-            //if (item != null)
-            //{
-            //    Users.Remove(item);
-            //    var id = Context.ConnectionId;
-            //    Clients.All.onUserDisconnected(id, item.Name);
-            //}
-
             return base.OnDisconnected(stopCalled);
         }
     }

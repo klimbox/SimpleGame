@@ -17,20 +17,38 @@ namespace SimpleGame.Services
 
         internal void AddUser(string name, string connectionId, bool isInGame = false, int gameId = 0)
         {
-            if (_usrLst.Any(u => u.Name == name))
+            if (name != "")
             {
-                var usr = _usrLst.Find(u => u.Name == name);
-                usr.ConnectionId = connectionId;
-                usr.IsInGame = isInGame;
-                usr.GameId = gameId;
-                return;
+                _usrLst.Add(new User(name, connectionId, isInGame, gameId));
             }
-            _usrLst.Add(new User(name, connectionId, isInGame, gameId));
+        }
+
+        internal bool IsNewUser(string name)
+        {
+            return !_usrLst.Any(u => u.Name == name);
         }
 
         internal List<User> GetAvailableUsers()
         {
             return _usrLst.FindAll(u => u.IsInGame == false);
+        }
+
+        internal void UpdateUserInfo(string name, string connectionId)
+        {
+            User user = _usrLst.FirstOrDefault(u => u.Name == name);
+            user.ConnectionId = connectionId;
+        }
+        internal void UpdateUserInfo(string name, string connectionId, bool isInGame, int gameId)
+        {
+            if (IsNewUser(name))
+            {
+                AddUser(name, connectionId, isInGame, gameId);
+                return;
+            }
+            User user = _usrLst.FirstOrDefault(u => u.Name == name);
+            user.ConnectionId = connectionId;
+            user.IsInGame = isInGame;
+            user.GameId = gameId;
         }
 
         internal List<User> GetAllUsersInGame()
