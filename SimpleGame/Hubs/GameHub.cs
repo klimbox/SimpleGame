@@ -75,20 +75,20 @@ namespace SimpleGame.Hubs
 
             if (isConfirm)
             {
-                var player = _usrMngr.GetUserByName(Context.User.Identity.Name);
-                player.GameId = gameId;
-                player.IsInGame = true;
-                _gameFactory.AddPlayerToGame(gameId, Context.User.Identity.Name);
-                _gameFactory.StartGame(gameId);
-
-                Clients.Client(player.ConnectionId).RedirectToGame();
-                Clients.Client(caller.ConnectionId).DisableInvitation();
+                AddPlayerToGame(gameId);
+                Clients.Client(caller.ConnectionId).DisableInvitation(); // hide invitation buttons 
                 Clients.Client(caller.ConnectionId).ShowMessage("Ваше предложение принято!");
             }
             else
             {
                 Clients.Client(caller.ConnectionId).ShowMessage("Игрок отклонил ваше предложение");
             }
+        }
+
+        public void JoinToGame(int gameId, string gameInitiator)
+        {
+            AddPlayerToGame(gameId);
+            Clients.Client(_usrMngr.GetUserByName(gameInitiator).ConnectionId).ShowMessage("К игре присоединился игрок! Ваш ход.");
         }
 
         public void DoAction(string usrName, string action)
@@ -135,10 +135,6 @@ namespace SimpleGame.Hubs
             _gameFactory.Destroy(gameId);
         }
 
-
-
-
-
         public override Task OnConnected()
         {
             return base.OnConnected();
@@ -147,6 +143,18 @@ namespace SimpleGame.Hubs
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
             return base.OnDisconnected(stopCalled);
+        }
+
+
+        private void AddPlayerToGame(int gameId)
+        {
+            var player = _usrMngr.GetUserByName(Context.User.Identity.Name);
+            player.GameId = gameId;
+            player.IsInGame = true;
+            _gameFactory.AddPlayerToGame(gameId, Context.User.Identity.Name);
+            _gameFactory.StartGame(gameId);
+
+            Clients.Client(player.ConnectionId).RedirectToGame();
         }
     }
 }

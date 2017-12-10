@@ -36,6 +36,10 @@
 function showAvailableGame(gm) {
     $("#rooms").append('<div class="well" id="' + gm.Id + '"><p>Игра: ' + gm.Name + '(' + gm.Id + ')</p>' +
         '<p>Инициатор: ' + gm.PlayerNameX + '</p>' +
-            '<input type="button" value="Присоединиться" onclick="JoinToGame(' + "'" + gm.Id + "'" + ')" /></div>');
+        '<input type="button" value="Присоединиться" onclick="JoinToGame(' + "'" + gm.Id + "','" + gm.PlayerNameX + "'" + ')" /></div>');
 }
 
+function JoinToGame(gameId, gameInitiator) {
+    var game = $.connection.gameHub;
+    game.server.joinToGame(gameId, gameInitiator);
+}
