@@ -1,4 +1,6 @@
-﻿using SimpleGame.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using SimpleGame.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +66,18 @@ namespace SimpleGame.Services
         internal List<User> GetUsersInGame(int gameId)
         {
             return _usrLst.FindAll(u => u.GameId == gameId);
+        }
+
+        internal void UpdateRating(string name)
+        {
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var manager = new UserManager<ApplicationUser>(store);
+
+            ApplicationUser user = manager.FindByName(name);
+            user.Rating += 1;
+
+            var ctx = store.Context;
+            ctx.SaveChanges();
         }
     }
 }

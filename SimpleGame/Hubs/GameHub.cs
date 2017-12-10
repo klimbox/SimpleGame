@@ -107,6 +107,7 @@ namespace SimpleGame.Hubs
                 {
                     case GameState.EndWithWinner:
                         Clients.Clients(userIds).showMessageAndRedirect("Игра закончена, победил игрок: " + _gameFactory.GetGameWinner(gameId));
+                        _usrMngr.UpdateRating(Context.User.Identity.Name);
                         Reset(gameId);
                         return;
                     case GameState.EndWithDraw:
