@@ -8,7 +8,6 @@
         $(document).ready(function () {
             var gName = $("#gamename").val();
             game.server.startNewGame(gName);
-
         })
     });
 
@@ -20,6 +19,10 @@
             AddUserToPage(users[i].Name);
         }
     }
+
+    game.client.showMessage = function (message) {
+        alert(message);
+    };
 
     // Функция, вызываемая при подключении нового пользователя
     game.client.onConnected = function (id, userName, allUsers)
