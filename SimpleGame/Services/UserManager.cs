@@ -68,14 +68,22 @@ namespace SimpleGame.Services
             return _usrLst.FindAll(u => u.GameId == gameId);
         }
 
-        internal void UpdateRating(string name)
+        internal void UpdateRating(int gameId, string winnerName)
         {
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var manager = new UserManager<ApplicationUser>(store);
 
-            ApplicationUser user = manager.FindByName(name);
-            user.Rating += 1;
-
+            var users = GetUsersInGame(gameId);
+            for (int i = 0; i < users.Count; i++)
+            {
+                ApplicationUser user = manager.FindByName(users[i].Name);
+                if (users[i].Name == winnerName)
+                {
+                    user.Rating += 1;
+                    continue;
+                }
+                user.Rating -= 1;
+            }
             var ctx = store.Context;
             ctx.SaveChanges();
         }
