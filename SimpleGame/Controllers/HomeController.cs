@@ -52,14 +52,20 @@ namespace SimpleGame.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            ApplicationUser user = new ApplicationUser();
+            if (User.Identity.IsAuthenticated)
+            {
+                user = UserManager.FindByName(User.Identity.Name);
+            }
+
+            return View(user);
         }
 
         [Authorize]
         public ActionResult Game(string id)
         {
             ViewBag.GameName = id;
-            return View();
+            return View(UserManager.FindByName(User.Identity.Name));
         }
 
     }
