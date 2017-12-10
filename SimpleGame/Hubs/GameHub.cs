@@ -82,6 +82,7 @@ namespace SimpleGame.Hubs
                 _gameFactory.StartGame(gameId);
 
                 Clients.Client(player.ConnectionId).RedirectToGame();
+                Clients.Client(caller.ConnectionId).DisableInvitation();
                 Clients.Client(caller.ConnectionId).ShowMessage("Ваше предложение принято!");
             }
             else

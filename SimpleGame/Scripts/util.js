@@ -24,6 +24,9 @@
         alert(message);
     };
 
+    game.client.disableInvitation = function () {
+        $(".invite").hide();
+    }
     // Функция, вызываемая при подключении нового пользователя
     game.client.onConnected = function (id, userName, allUsers)
     {
@@ -54,7 +57,7 @@
 //Добавление нового пользователя
 function AddUserToPage(usrName) {
     $("#player-list").append('<div class="well" id="' + usrName + '"><p>Игрок: ' + usrName + '</p>' +
-        '<input type="button" value="Пригласить" onclick="InvitePlayer(' + "'" + usrName + "'" + ')" /></div>');
+        '<input type="button" class="invite" value="Пригласить" onclick="InvitePlayer(' + "'" + usrName + "'" + ')" /></div>');
 }
 
 
