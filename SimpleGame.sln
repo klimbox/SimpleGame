@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGame", "SimpleGame\SimpleGame.csproj", "{EDF82349-5C7D-41BC-AA4A-FA662D974A53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesLib", "GamesLib\GamesLib.csproj", "{EE3F4126-8631-4051-A23E-4BC1A4DE723D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameXOTests", "GameXOTests\GameXOTests.csproj", "{94055E4E-4148-4714-8021-DD9757545F24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMAV", "ATMAV\ATMAV.csproj", "{B2787DA4-37FC-4C2F-BB06-181A98C270D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{EE3F4126-8631-4051-A23E-4BC1A4DE723D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE3F4126-8631-4051-A23E-4BC1A4DE723D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE3F4126-8631-4051-A23E-4BC1A4DE723D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94055E4E-4148-4714-8021-DD9757545F24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94055E4E-4148-4714-8021-DD9757545F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94055E4E-4148-4714-8021-DD9757545F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94055E4E-4148-4714-8021-DD9757545F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2787DA4-37FC-4C2F-BB06-181A98C270D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2787DA4-37FC-4C2F-BB06-181A98C270D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2787DA4-37FC-4C2F-BB06-181A98C270D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2787DA4-37FC-4C2F-BB06-181A98C270D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
