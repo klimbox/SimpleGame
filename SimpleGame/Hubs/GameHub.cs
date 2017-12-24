@@ -38,17 +38,13 @@ namespace SimpleGame.Hubs
             if (Context.User.Identity.IsAuthenticated)
             {
                 string usrName = Context.User.Identity.Name;
-                try
+
+                if (_usrMngr.GetUserByName(usrName).IsInGame)
                 {
-                    if (_usrMngr.GetUserByName(usrName).IsInGame)
-                    {
-                        _usrMngr.UpdateUserInfo(Context.User.Identity.Name, Context.ConnectionId);
-                        return;
-                    }
+                    _usrMngr.UpdateUserInfo(Context.User.Identity.Name, Context.ConnectionId);
+                    return;
                 }
-                catch (System.Exception)
-                {
-                }
+
                 //create game instance
                 int gameId = _gameFactory.StartNewGame(gameName, usrName);
                 _usrMngr.UpdateUserInfo(usrName, Context.ConnectionId, true, gameId);
@@ -56,7 +52,7 @@ namespace SimpleGame.Hubs
                 var userIds = _usrMngr.GetAvailableUsers().Select(u => u.ConnectionId).ToList();
                 Clients.Clients(userIds).GetAvailableGames(_gameFactory.GetAvailableGames());
 
-                Clients.Caller.ShowUsers(_usrMngr.GetAvailableUsers()); 
+                Clients.Caller.ShowUsers(_usrMngr.GetAvailableUsers());
             }
         }
 
